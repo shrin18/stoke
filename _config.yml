@@ -17,3 +17,5 @@ github:
 exclude: [
   README.md
 ]
+
+theme: jekyll-theme-cayman
