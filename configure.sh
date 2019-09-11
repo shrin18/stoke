@@ -23,13 +23,17 @@ $(grep avx2 /proc/cpuinfo >/dev/null)
 AVX2=$?
 $(grep avx /proc/cpuinfo >/dev/null)
 AVX=$?
+$(grep avx /proc/cpuinfo >/dev/null)
+MMX=$?
 
 if [ $AVX2 -eq 0 ]; then
   PLATFORM="haswell"
 elif [ $AVX -eq 0 ]; then
   PLATFORM="sandybridge"
+elif [ $MMX -eq 0]; then
+  PLATFORM="nehalem"
 else
-  echo "ERROR: STOKE is currently only supported on sandybridge or haswell machines.  You appear to have an older CPU."
+  echo "ERROR: STOKE is currently only supported on sandybridge or haswell machines.  You appear to $
 exit 1
 fi
 
@@ -56,37 +60,3 @@ while :; do
       shift
       ;;
     --no-cvc4)
-      NOCVC4=1
-      shift
-      ;;
-    -?*)
-      echo "WARNING: unknown option $1"
-      error
-      exit
-      ;;
-    *)
-      break
-  esac
-done
-
-echo ""
-echo "The default build type is '$BUILD_TYPE'."
-echo "Configuring STOKE for $PLATFORM"
-
-rm -f .stoke_config
-
-## Write options to config file
-echo "STOKE_PLATFORM=\"$PLATFORM\"" >> .stoke_config
-echo "BUILD_TYPE=$BUILD_TYPE" >> .stoke_config
-echo "MISC_OPTIONS=$MISC_OPTIONS" >> .stoke_config
-
-if [ ! -z $NOCVC4 ]; then
-echo "NOCVC4=$NOCVC4" >> .stoke_config
-fi
-
-
-## All done!
-
-echo ""
-echo "You're all set to run make!"
-echo ""
