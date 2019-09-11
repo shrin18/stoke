@@ -33,7 +33,7 @@ elif [ $AVX -eq 0 ]; then
 elif [ $MMX -eq 0]; then
   PLATFORM="nehalem"
 else
-  echo "ERROR: STOKE is currently only supported on sandybridge or haswell machines.  You appear to an older CPU"
+  echo "ERROR: STOKE is currently only supported on sandybridge or haswell machines.  You appear to have an older CPU"
 exit 1
 fi
 
